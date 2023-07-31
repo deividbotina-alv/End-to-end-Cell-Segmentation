@@ -13,9 +13,6 @@ class ModelTrainer:
     ):
         self.model_trainer_config = model_trainer_config
 
-
-    
-
     def initiate_model_trainer(self,) -> ModelTrainerArtifact:
         logging.info("Entered initiate_model_trainer method of ModelTrainer class")
 
@@ -26,7 +23,6 @@ class ModelTrainer:
            
             os.system(f"yolo task=segment mode=train model={self.model_trainer_config.weight_name} data=data.yaml epochs={self.model_trainer_config.no_epochs} imgsz=640 save=true")
 
-
             os.makedirs(self.model_trainer_config.model_trainer_dir, exist_ok=True)
             os.system(f"cp runs/segment/train/weights/best.pt {self.model_trainer_config.model_trainer_dir}/")
            
@@ -35,7 +31,7 @@ class ModelTrainer:
             os.system("rm -rf valid")
             os.system("rm -rf test")
             os.system("rm -rf data.yaml")
-            os.system("rm -rf runs")
+            # os.system("rm -rf runs")
 
             model_trainer_artifact = ModelTrainerArtifact(
                 trained_model_file_path="artifacts/model_trainer/best.pt",
@@ -45,7 +41,6 @@ class ModelTrainer:
             logging.info(f"Model trainer artifact: {model_trainer_artifact}")
 
             return model_trainer_artifact
-
 
         except Exception as e:
             raise AppException(e, sys)
